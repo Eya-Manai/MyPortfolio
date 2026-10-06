@@ -1,0 +1,98 @@
+/* ============================================================
+   Responsive breakpoints. Loaded last so it can override the base styles.
+   Split out of the original single-file stylesheet. Load order
+   matters: later files intentionally override earlier ones.
+   ============================================================ */
+
+/* Responsive */
+@media (max-width: 900px) {
+  .gallery-card.featured { grid-column: span 1; aspect-ratio: 1 / 1.15; }
+  .modal-shots-grid { grid-template-columns: 1fr; }
+  .case-head { grid-template-columns: 1fr; }
+  .case-cover { aspect-ratio: 16 / 10; }
+  .case-hint { margin-left: 0; }
+}
+@media (max-width: 1180px) {
+  /* Give the section bar the full width between the brand and sound pills. */
+  #navbar {
+    max-width: calc(100vw - 460px);
+  }
+  #navbar button { padding: 8px 12px; font-size: 0.72rem; }
+}
+@media (max-width: 820px) {
+  /* Stacked layout: the bar tucks under the brand/sound row and scrolls
+     sideways, so nothing floats over the chapter content. */
+  #navbar {
+    top: calc(max(16px, env(safe-area-inset-top, 0px)) + 44px);
+    bottom: auto;
+    left: 12px;
+    right: 12px;
+    max-width: none;
+    transform: none;
+    justify-content: flex-start;
+  }
+  #navbar button { padding: 8px 14px; }
+  /* Reserve the HUD band (104px top) and the NEXT button (64px bottom).
+     Note: a percentage max-height would resolve against the panel's full
+     height and ignore this padding, hence the explicit calc(). */
+  .panel { padding: 104px 14px 64px; }
+  .certs-container,
+  .projects-container {
+    max-height: calc(100vh - 168px);
+    max-height: calc(100dvh - 168px);
+  }
+  /* Shorten the wordmark so it clears the sound pill. */
+  #brand-mark { font-size: 0.7rem; padding: 7px 14px; letter-spacing: 0.1em; }
+  #brand-mark .bm-tail { display: none; }
+  /* Reclaim vertical space: drop the arrows and tighten the nodes so the
+     timeline wraps into two lines instead of three. */
+  .learning-path { padding: 8px 12px; gap: 4px 8px; }
+  .path-arrow { display: none; }
+  .path-node { flex: 1 1 92px; padding: 4px; }
+  .certs-header { padding: 0 2px; gap: 4px; }
+  .certs-header .mut { font-size: 0.82rem; }
+}
+@media (max-width: 700px) {
+  .panel, .panel:nth-child(even) {
+    justify-content: center;
+    /* Keeps the HUD band and the NEXT button clear of the content. */
+    padding: 104px 16px 64px;
+  }
+  .hero, .card {
+    padding: 24px 20px;
+    border-radius: 24px;
+  }
+  #brand-mark {
+    font-size: 0.7rem;
+    padding: 7px 14px;
+  }
+  #dots {
+    gap: 10px;
+    padding: 10px 7px;
+  }
+  #dots button {
+    width: 10px;
+    height: 10px;
+  }
+  #cursor-dot, #cursor-ring {
+    display: none;
+  }
+  .projects-container {
+    max-height: calc(100dvh - 168px);
+  }
+  .gallery-grid {
+    grid-template-columns: 1fr;
+  }
+  .certs-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+  /* Too narrow to render usefully — the full ID stays in the popup. */
+  .cert-cred-id { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

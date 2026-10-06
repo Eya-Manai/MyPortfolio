@@ -1,0 +1,464 @@
+/* ============================================================
+   Dialogs, case-study modal, contact form, intro overlay.
+   Split out of the original single-file stylesheet. Load order
+   matters: later files intentionally override earlier ones.
+   ============================================================ */
+
+/* Dialogs & Modals */
+dialog {
+  width: min(88vw, 920px);
+  max-height: min(90vh, 900px);
+  overflow-y: auto;
+  margin: auto;
+  border: 1.5px solid var(--line-strong);
+  border-radius: 32px;
+  background: linear-gradient(135deg, rgba(255, 245, 251, 0.97), rgba(255, 231, 243, 0.96));
+  -webkit-backdrop-filter: blur(30px);
+  backdrop-filter: blur(30px);
+  box-shadow: 0 40px 120px rgba(190, 90, 140, 0.35), 0 0 60px rgba(255, 45, 135, 0.35);
+  padding: 0;
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  color: var(--text-warm);
+}
+dialog::backdrop {
+  background: rgba(10, 2, 18, 0.8);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+.modal-content {
+  padding: clamp(24px, 4vw, 44px);
+}
+.modal-close {
+  position: absolute;
+  top: 18px; right: 18px;
+  width: 42px; height: 42px;
+  border: 1.5px solid var(--line);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-pure);
+  font: 700 1.2rem monospace;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: all 0.25s;
+  z-index: 10;
+}
+.modal-close:hover {
+  background: var(--pink-primary);
+  border-color: #fff;
+  color: #fff;
+  transform: rotate(90deg);
+}
+/* ── Full-screen case study popup ── */
+dialog#modal .modal-close {
+  position: fixed;
+  top: max(18px, env(safe-area-inset-top, 0px));
+  right: max(18px, env(safe-area-inset-right, 0px));
+  width: 48px;
+  height: 48px;
+  font-size: 1.3rem;
+  background: var(--modal-1);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 10px 30px rgba(120, 30, 80, 0.35);
+  z-index: 20;
+}
+dialog#modal {
+  width: 100%;
+  max-width: none;
+  max-height: none;
+  height: 100%;
+  inset: 0;
+  margin: 0;
+  transform: none;
+  top: 0;
+  left: 0;
+  border-radius: 0;
+  border: none;
+  background: linear-gradient(150deg, var(--modal-1) 0%, var(--modal-2) 100%);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  /* No backdrop-filter here on purpose: it would make this element the
+     containing block for the fixed close button, which then scrolls away. */
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+dialog#modal::backdrop {
+  background: var(--backdrop);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  backdrop-filter: blur(16px) saturate(120%);
+}
+dialog#modal .modal-content {
+  padding: clamp(24px, 4vw, 56px);
+  max-width: 1080px;
+  margin: 0 auto;
+}
+.case-head {
+  display: grid;
+  grid-template-columns: 1.35fr 0.65fr;
+  gap: clamp(20px, 3vw, 40px);
+  align-items: start;
+  margin-bottom: clamp(20px, 3vw, 34px);
+}
+.case-title-block h2 {
+  margin-bottom: 0.25em;
+}
+.case-sub {
+  font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+.case-quickfacts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+}
+.case-quickfacts li {
+  padding: 5px 13px;
+  border: 1px solid rgba(214, 45, 110, 0.3);
+  border-radius: 99px;
+  background: var(--chip-bg);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-warm);
+}
+.case-cover {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: 0 24px 60px rgba(160, 60, 110, 0.35);
+  aspect-ratio: 1 / 1;
+}
+.case-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.case-cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgba(88, 20, 60, 0.5) 100%);
+  pointer-events: none;
+}
+.case-year {
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  z-index: 2;
+  padding: 5px 13px;
+  border-radius: 99px;
+  background: rgba(255, 45, 135, 0.9);
+  color: #fff;
+  font: 700 0.74rem var(--kicker-font);
+  letter-spacing: 0.1em;
+}
+.case-sections {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+  margin-bottom: clamp(20px, 3vw, 32px);
+}
+.case-block {
+  padding: 20px 22px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--glass-fill);
+  transition: border-color 0.3s, transform 0.3s, background-color 0.5s ease, color 0.5s ease;
+}
+.case-block:hover {
+  border-color: var(--line-strong);
+  transform: translateY(-3px);
+}
+.case-block h3 {
+  margin-top: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.case-block p {
+  margin-bottom: 0;
+  font-size: 0.95rem;
+}
+.case-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  margin-bottom: clamp(20px, 3vw, 32px);
+}
+.case-gallery figure {
+  margin: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--glass-fill);
+}
+.case-gallery img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s cubic-bezier(0.2, 1, 0.3, 1);
+}
+.case-gallery figure:hover img {
+  transform: scale(1.05);
+}
+/* ── Phone / portrait shot grid (mobile app screenshots) ──
+   Same frame language as .case-gallery but 9/19.5 so handset
+   captures keep their real aspect instead of being cropped. */
+.case-gallery--phone {
+  grid-template-columns: repeat(auto-fit, minmax(148px, 1fr));
+  gap: 18px;
+  max-width: 640px;
+}
+.case-gallery--phone figure {
+  border-radius: 26px;
+  padding: 7px;
+  border: 1px solid var(--line);
+  box-shadow: 0 14px 34px rgba(160, 60, 110, 0.2);
+}
+.case-gallery--phone img {
+  aspect-ratio: 9 / 19.5;
+  border-radius: 20px;
+}
+.case-gallery--phone figcaption {
+  padding: 9px 4px 3px;
+  font: 700 0.68rem var(--kicker-font);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-align: center;
+}
+/* Stands in for a handset shot that has not been added yet. */
+.case-shot-empty {
+  display: grid;
+  place-items: center;
+  gap: 6px;
+  aspect-ratio: 9 / 19.5;
+  border-radius: 20px;
+  border: 1px dashed var(--line-strong);
+  background: var(--glass-fill);
+  padding: 12px;
+  text-align: center;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+/* ── Video demo block ── */
+.case-video {
+  margin-bottom: clamp(20px, 3vw, 32px);
+}
+.case-video-frame {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: #1a0512;
+  box-shadow: 0 20px 50px rgba(160, 60, 110, 0.26);
+}
+.case-video-frame video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: #1a0512;
+}
+.case-video-note {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+.case-video-note b {
+  color: var(--text-warm);
+}
+/* Shown when the clip file is absent, so a missing asset never
+   leaves a dead black rectangle in the case study. */
+.case-video-empty {
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  aspect-ratio: 16 / 9;
+  padding: 24px;
+  text-align: center;
+  border-radius: 20px;
+  border: 1px dashed var(--line-strong);
+  background: var(--glass-fill);
+}
+.case-video-empty span:first-child {
+  font-size: 2rem;
+}
+.case-video-empty code {
+  font: 700 0.78rem var(--kicker-font);
+  color: var(--pink-soft);
+  word-break: break-all;
+}
+/* Small "has demo" marker on the project card cover. */
+.cover-video-tag {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  border-radius: 99px;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  background: rgba(26, 5, 18, 0.62);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  font: 700 0.66rem var(--kicker-font);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.case-cta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+  padding-top: clamp(16px, 2vw, 24px);
+  border-top: 1px solid rgba(255, 95, 162, 0.25);
+}
+.case-hint {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  margin-left: auto;
+}
+.modal-header {
+  margin-bottom: 1.5rem;
+}
+.modal-cover {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 20px;
+  background-size: cover;
+  background-position: center;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 20px 50px rgba(160, 60, 110, 0.28);
+  margin-bottom: 1.5rem;
+}
+.modal-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  padding: 16px 0;
+  margin: 1.2rem 0;
+  border-block: 1px solid rgba(255, 95, 162, 0.25);
+}
+.modal-meta-item span {
+  font-family: var(--kicker-font);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--pink-soft);
+  text-transform: uppercase;
+  display: block;
+}
+.modal-meta-item b {
+  font-size: 0.95rem;
+  color: var(--text-pure);
+  display: block;
+}
+.modal-shots-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-top: 1rem;
+}
+.modal-shots-grid img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.25s;
+}
+.modal-shots-grid img:hover {
+  transform: scale(1.02);
+}
+
+/* Contact Section Form */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 1.4rem;
+}
+.form-input {
+  width: 100%;
+  padding: 12px 18px;
+  border: 1.5px solid var(--line);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  font: 500 0.92rem var(--body-font);
+  outline: none;
+  transition: border-color 0.2s, background 0.2s, color 0.5s ease;
+}
+.form-input:focus {
+  border-color: var(--pink-primary);
+  background: rgba(255, 45, 135, 0.1);
+  box-shadow: 0 0 15px rgba(255, 45, 135, 0.25);
+}
+textarea.form-input {
+  resize: vertical;
+  min-height: 90px;
+}
+.form-input::placeholder {
+  color: var(--text-dim);
+  opacity: 1;
+}
+.form-feedback {
+  font-size: 0.85rem;
+  color: var(--pink-soft);
+  margin-top: 4px;
+  display: none;
+}
+
+/* Intro Overlay */
+#intro {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  text-align: center;
+  background: radial-gradient(ellipse at 50% 40%, #fff0f7 0%, #ffdff0 55%, #ffcfe6 100%);
+  gap: 1rem;
+  padding: 24px;
+}
+#intro .intro-mark {
+  font-family: var(--kicker-font);
+  color: var(--pink-soft);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+#intro .count {
+  font: italic 700 clamp(4.5rem, 16vw, 10rem)/1 var(--display);
+  background: linear-gradient(120deg, #8b1a59 10%, #e84393 50%, #f06292 80%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: none;
+}
+#intro .intro-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  margin-bottom: 0.2rem;
+}
+#intro .note {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+}

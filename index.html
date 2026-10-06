@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Eya Manai — Software Engineer &amp; Creative Technologist</title>
+<meta name="description" content="Portfolio of Eya Manai: Software Engineering Student (ISAMM, Top 10%), AI, 3D/Three.js, VR/AR, and UX/UI. Explore an immersive interactive 3D universe.">
+<meta property="og:title" content="Eya Manai — Creative Technologist &amp; Software Engineer">
+<meta property="og:description" content="Immersive 3D portfolio exploring Software Engineering, AI, 3D, and VR/AR.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#ff2d87">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+
+
+  <!-- Styles: split by concern, loaded in cascade order. -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/cursor-type.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/hud.css">
+  <link rel="stylesheet" href="css/overlays.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+<canvas id="gl" aria-hidden="true"></canvas>
+
+<main id="stations"></main>
+
+<header id="hud">
+  <a id="brand-mark" href="#0" aria-label="Eya Manai Home">EYA MANAI <span class="bm-star">✦</span><span class="bm-tail"> PORTFOLIO</span></a>
+  <nav id="navbar" aria-label="Sections"></nav>
+  <button id="sound" aria-pressed="false" aria-label="Toggle ambient sound">
+    <span>♪ AMBIENT</span>
+    <div class="eq-bars"><span></span><span></span><span></span></div>
+  </button>
+  <nav id="dots" aria-label="Chapter progress"></nav>
+  <button id="next" aria-label="Next chapter">NEXT <span>↓</span></button>
+  <div id="bar"></div>
+</header>
+
+<dialog id="modal" aria-label="Project or Credential Inspector"></dialog>
+
+<div id="intro">
+  <p class="intro-mark">EYA MANAI <span>✦</span> CREATIVE UNIVERSE</p>
+  <div class="count" id="count">000</div>
+  <h1 class="intro-title">Where Code Meets Bloom</h1>
+  <p>Software Engineering · AI · 3D Graphics · Virtual &amp; Augmented Reality</p>
+  <button id="start" class="btn" hidden>Enter Experience ✦</button>
+  <p class="note">A continuous digital journey through technology &amp; creativity</p>
+</div>
+
+  <!-- Scripts: classic scripts so the page works from file:// with no server.
+       Load order matters - each file reads globals from the ones above it. -->
+  <script src="js/vendor.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/scene.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
