@@ -86,8 +86,8 @@ function renderCertsGrid(container, onSelect) {
       <div class="cert-org-badge">${c.organization}</div>
       <h3 class="cert-title">${c.title}</h3>
       <div class="cert-meta">
-        <span>📅 ${c.date}</span>
-        <span>⏱ ${c.duration}</span>
+        <span><b>Issued</b>${c.date}</span>
+        <span><b>Format</b>${c.duration}</span>
       </div>
       <ul class="chips">${c.skills.slice(0, 2).map(s => `<li>${s}</li>`).join("")}</ul>
       <div class="cert-footer">
@@ -149,11 +149,7 @@ function setupModal(dialog, soundEngine, env) {
               poster="${p.video.poster || p.image}"
               src="${p.video.src}"
               aria-label="${p.video.label || p.title + ' video demo'}"></video>
-            <div class="case-video-empty" hidden>
-              <span aria-hidden="true">🎬</span>
-              <span>Demo clip coming soon</span>
-              <code>${p.video.src}</code>
-            </div>
+           
           </div>
           <div class="case-video-note">
             <b>${p.video.label || "Demo"}</b>
@@ -168,7 +164,7 @@ function setupModal(dialog, soundEngine, env) {
             <figure data-shot-src="${s.src}">
               <img src="${s.src}" alt="${p.title} app screen ${i + 1}${s.caption ? " — " + s.caption : ""}" loading="lazy">
               <div class="case-shot-empty" hidden>
-                <span aria-hidden="true">📱</span>
+                <span aria-hidden="true">◫</span>
                 <span>Screen pending</span>
               </div>
               ${s.caption ? `<figcaption>${s.caption}</figcaption>` : ""}
@@ -197,17 +193,17 @@ function setupModal(dialog, soundEngine, env) {
 
           <div class="case-sections">
             <div class="case-block">
-              <h3>🎯 The Challenge</h3>
+              <h3>◈ The Challenge</h3>
               <p>${p.problem}</p>
             </div>
             <div class="case-block">
-              <h3>✨ The Solution</h3>
+              <h3>✦ The Solution</h3>
               <p>${p.solution}</p>
             </div>
           </div>
 
           <div class="case-block" style="margin-bottom: clamp(20px, 3vw, 32px);">
-            <h3>🌸 My Role &amp; Engineering</h3>
+            <h3>❋ My Role &amp; Engineering</h3>
             <p>${p.story}</p>
           </div>
 
@@ -218,7 +214,10 @@ function setupModal(dialog, soundEngine, env) {
           <div class="case-gallery">${shotsHtml || '<p class="mut">No visuals yet.</p>'}</div>
 
           <div class="case-cta">
-            <a class="btn" href="mailto:${personalData.email}?subject=Inquiry%20regarding%20${encodeURIComponent(p.title)}">Discuss This Project ✉</a>
+            ${(p.links || []).map(l => `
+              <a class="btn btn-secondary case-link-btn" href="${l.href}" target="_blank" rel="noopener"
+                title="${l.note || ""}">${l.icon || "↗"} ${l.label}</a>`).join("")}
+            <a class="btn" href="mailto:${personalData.email}?subject=Inquiry%20regarding%20${encodeURIComponent(p.title)}">Discuss This Project →</a>
             <button class="btn btn-secondary modal-done-btn">Back to Universe</button>
             <span class="case-hint">Press <b>Esc</b> to close</span>
           </div>
@@ -237,10 +236,14 @@ function setupModal(dialog, soundEngine, env) {
         };
         // preload="none" means no fetch until play, so probe the source
         // explicitly and let a 404 fall through to the placeholder.
+        // The probe is skipped on file:// because fetch() cannot read local
+        // files there and would always reject, hiding a perfectly valid clip.
         vid.addEventListener("error", showPlaceholder);
-        fetch(vid.getAttribute("src"), { method: "HEAD" })
-          .then(r => { if (!r.ok) showPlaceholder(); })
-          .catch(showPlaceholder);
+        if (location.protocol === "http:" || location.protocol === "https:") {
+          fetch(vid.getAttribute("src"), { method: "HEAD" })
+            .then(r => { if (!r.ok) showPlaceholder(); })
+            .catch(showPlaceholder);
+        }
       }
 
       // Same graceful fallback for handset shots that have not been added.
@@ -290,11 +293,31 @@ function setupModal(dialog, soundEngine, env) {
             <a class="btn" href="${c.pdfFile}" target="_blank" rel="noopener">Open Official PDF ↗</a>
             <button class="btn btn-secondary modal-done-btn">Close</button>
           </div>
+          <div class="cert-pdf-missing" hidden>
+            <b>PDF not uploaded yet</b>
+            <span>Drop the scan at <code>${c.pdfFile}</code> and this button will open it.</span>
+          </div>
         </div>`;
         
       dialog.querySelector(".modal-close").addEventListener("click", closeModal);
       dialog.querySelector(".modal-done-btn").addEventListener("click", closeModal);
-      
+
+      // Same graceful degradation as the video block above: probe the file
+      // and swap in a notice when it is absent, so a credential without its
+      // scan never leaves a button that opens a broken tab.
+      const pdfLink = dialog.querySelector('.modal-content a[href$=".pdf"], .modal-content a[href$=".PDF"]');
+      const pdfNote = dialog.querySelector(".cert-pdf-missing");
+      if (pdfLink && pdfNote) {
+        const markMissing = () => { pdfLink.hidden = true; pdfNote.hidden = false; };
+        // Skipped on file:// — fetch() cannot read local files there and
+        // would always reject, hiding a perfectly valid PDF.
+        if (location.protocol === "http:" || location.protocol === "https:") {
+          fetch(pdfLink.getAttribute("href"), { method: "HEAD" })
+            .then(r => { if (!r.ok) markMissing(); })
+            .catch(markMissing);
+        }
+      }
+
       document.body.classList.add("focus");
       dialog.showModal();
       dialog.scrollTop = 0;

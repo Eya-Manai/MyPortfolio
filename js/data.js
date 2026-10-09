@@ -1,4 +1,4 @@
-// ============================================================
+﻿// ============================================================
 //  Content data: profile, domains, journey, skills, projects, certs, chapters.
 //  Plain classic script: it reads globals from the files loaded above it.
 //  Load order is fixed by index.html and must not change.
@@ -25,10 +25,12 @@ const personalData = {
   ]
 };
 
+// Pillar marks are typographic glyphs rather than emoji — same reasoning as
+// achievementsData: they inherit the display font and match the type.
 const worldDomains = [
   {
     id: "ai",
-    icon: "🧠",
+    icon: "✦",
     title: "Artificial Intelligence",
     tagline: "NLP & LLM Architectures",
     desc: "From training text classification pipelines to exploring OpenAI API integrations and production LLMOps workflows, I harness AI to give digital experiences reasoning and contextual depth.",
@@ -36,7 +38,7 @@ const worldDomains = [
   },
   {
     id: "3d",
-    icon: "🔮",
+    icon: "◈",
     title: "3D & Creative WebGL",
     tagline: "Procedural Shaders & Spatial Form",
     desc: "The web is an explorable landscape. Using Three.js, WebGL, custom GLSL shaders, and Blender, I sculpt interactive digital worlds that respond to touch, light, and motion.",
@@ -44,7 +46,7 @@ const worldDomains = [
   },
   {
     id: "vr",
-    icon: "🥽",
+    icon: "❋",
     title: "Virtual & Augmented Reality",
     tagline: "Spatial Presence & Narrative",
     desc: "VR creates genuine empathy. In Posidonia VR, I crafted underwater biomes to immerse players into threatened Mediterranean marine reserves and inspire environmental action.",
@@ -52,7 +54,7 @@ const worldDomains = [
   },
   {
     id: "ux",
-    icon: "🎨",
+    icon: "❖",
     title: "UX/UI & Creative Direction",
     tagline: "Human-Centered Aesthetics",
     desc: "Technology without empathy is hollow. I design interfaces in Figma that feel intuitive, elegant, and playful — ensuring complex medical or technical platforms remain welcoming.",
@@ -60,7 +62,7 @@ const worldDomains = [
   },
   {
     id: "software",
-    icon: "⚡",
+    icon: "✧",
     title: "Software Engineering",
     tagline: "Resilient & Scalable Systems",
     desc: "Behind every seamless experience is robust software engineering. Whether building hospital-grade oncology coordination tools with React/TypeScript or mobile apps with Flutter/Firebase, I write clean code.",
@@ -146,17 +148,15 @@ const projectsData = [
     hasUnderwaterMode: true,
     image: "assets/projects/posidonia.png",
     tint: ["#ff3385", "#7928ca"],
-    stack: ["Unity", "C#", "Blender", "VR / Meta Quest", "URP", "3D Biome Design"],
-    story: "An immersive underwater serious game guiding players through a scripted educational journey exploring Mediterranean Posidonia oceanica seagrass meadows and marine biodiversity preservation. Collaborating between ISAMM and the ATUTAX Association, I designed realistic underwater 3D biomes, programmed intuitive 6DOF headset interaction mechanics, modeled ecological marine elements (Pinna nobilis, Sea Bream, octopuses), and rigorously profiled GPU draw calls and shaders to guarantee 90 FPS rendering on standalone VR headsets.",
+    stack: ["Unity", "C#", "Blender", "VR / Meta Quest", "URP", "3D Design"],
+    story: "An immersive underwater serious game guiding players through a scripted educational journey exploring Mediterranean Posidonia oceanica seagrass meadows and marine biodiversity preservation. Collaborating between ISAMM and the ATUTAX Association, I designed realistic underwater 3D biomes, programmed intuitive headset interaction mechanics, modeled ecological marine elements (Pinna nobilis, Sea Bream, octopuses), and rigorously profiled GPU draw calls and shaders to guarantee 90 FPS rendering on standalone VR headsets.",
     problem: "Posidonia oceanica is vital to Mediterranean marine ecosystems and carbon capture, yet suffers severe degradation from anchoring, coastal pollution, and ghost fishing nets. Traditional awareness campaigns struggle to convey underwater scale and urgency.",
     solution: "A gamified VR exploration where players virtually dive into threatened marine reserves, conduct biodiversity surveys, free entangled marine wildlife, and witness the tangible ecological benefits of conservation first-hand.",
     // Headset capture. Drop the file at this path (MP4/H.264 recommended);
     // until then the block shows a labelled placeholder instead of a dead frame.
     video: {
-      src: "assets/projects/posidonia-vr-demo.mp4",
+      src: "assets/projects/tutoFinalAtutax.mp4",
       poster: "assets/projects/posidonia.png",
-      label: "In-headset walkthrough",
-      note: "Recorded in-engine on Meta Quest — 6DOF dive through the Posidonia meadow."
     },
     screenshots: [
       "assets/projects/posidonia.png",
@@ -178,7 +178,7 @@ const projectsData = [
     problem: "The rapid proliferation of digital disinformation and clickbait threatens informed decision-making, requiring automated, scalable verification tools.",
     solution: "An end-to-end NLP classifier that extracts stylistic and semantic signals from article text, evaluating credibility confidence scores with high precision and low false positives.",
     screenshots: [
-      "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1200&q=85",
+      "assets/projects/FakeNewNLP.webp",
       "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=85"
     ]
   },
@@ -216,10 +216,20 @@ const projectsData = [
     // Handset captures rendered in a portrait phone frame rather than the
     // landscape gallery. Replace the paths with your own device screenshots.
     phoneShots: [
-      { src: "assets/projects/kids-app-01.png", caption: "Home" },
-      { src: "assets/projects/kids-app-02.png", caption: "Quiz" },
-      { src: "assets/projects/kids-app-03.png", caption: "Rewards" },
-      { src: "assets/projects/kids-app-04.png", caption: "Progress" }
+      { src: "assets/projects/authentification.PNG", caption: "Authentification" },
+      { src: "assets/projects/parentHomePage.PNG", caption: "Parent Home Page" },
+      { src: "assets/projects/bobo.PNG", caption: "Kid's Avatar" },
+      { src: "assets/projects/toti.PNG", caption: "Kid's Avatar" },
+      { src: "assets/projects/dodo.PNG", caption: "Kid's Avatar" },
+      { src: "assets/projects/wakwak.PNG", caption: "Kid's Avatar" },
+      { src: "assets/projects/addCHILD.PNG", caption: "Add Child" },
+      { src: "assets/projects/selectSubject.PNG", caption: "select Subject" },
+      { src: "assets/projects/selectChapter.PNG", caption: "Select Chapter" },
+      { src: "assets/projects/selectCourseMap.PNG", caption: "Course Map" },
+      { src: "assets/projects/Courscontent.PNG", caption: "Cours Content" },
+      { src: "assets/projects/gamesaccess.PNG", caption: "Games Access" },
+      { src: "assets/projects/gameLoad1.PNG", caption: "Game Load" }
+
     ],
     screenshots: [
       "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=85",
@@ -261,26 +271,18 @@ const projectsData = [
     ]
   },
   {
-    id: "global-game-jam",
-    title: "Global Game Jam Hackathon Prototype",
-    subtitle: "48-Hour Rapid Game Prototyping",
+    id: "warrior-of-wealth",
+    title: "Warrior of Wealth",
+    subtitle: "2D Promotional Game for a Local Shop",
     year: "2026",
-    at: "Global Game Jam / GDG ISAMM",
-    role: "Game Programmer & 3D Artist",
+    at: "Personal Project (Self-Initiated)",
+    role: "2D Game Developer & Designer",
     image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1200&q=85",
     tint: ["#d946ef", "#8b5cf6"],
-    stack: ["Unity", "C#", "Blender", "Game Physics", "Audio Synthesis"],
-    story: "Created under an intense 48-hour deadline during the international Global Game Jam with GDG on Campus ISAMM. Engineered core player mechanics, collision systems, low-poly 3D environmental assets in Blender, and dynamic sound triggers aligned with the competition's secret theme.",
-    problem: "Prototyping an engaging, playable game with polished physics, aesthetics, and sound from scratch within 48 uninterrupted hours.",
-    solution: "A lean gameplay loop with crisp mechanics, stylized color palettes, and tight state management that delivered a fully playable hackathon submission.",
-    // Gameplay capture. Drop the file at this path; a labelled placeholder
-    // stands in until the clip is exported.
-    video: {
-      src: "assets/projects/global-game-jam-demo.mp4",
-      poster: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1200&q=85",
-      label: "Gameplay capture",
-      note: "Rough 48-hour build — core loop, collision feel and audio triggers as shipped on jam night."
-    },
+    stack: ["Unity", "C#", "2D Game Development", "Game Design", "Pixel Art"],
+    story: "A small 2D game developed as a creative promotional experience for my shop. The game combines simple gameplay mechanics with the shop's visual identity, allowing players to interact with the brand through a short and entertaining gaming experience. The player takes on the role of a warrior who navigates the game environment, collects items, and overcomes simple challenges while discovering elements inspired by the shop. The project focuses on creating an engaging and accessible experience while using game design as a creative way to promote a business.",
+    problem: "Small local shops rarely have the budget or reach for conventional advertising, so standing out against larger competitors while staying friendly to a walk-in audience is difficult.",
+    solution: "Game design used as a promotional medium: an approachable 2D adventure where the brand's identity is woven into the world, characters and items the player interacts with.",
     screenshots: [
       "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1200&q=85"
     ]
@@ -288,6 +290,30 @@ const projectsData = [
 ];
 
 const certificationsData = [
+  {
+    id: "ccna-1",
+    title: "CCNA 1 — Cisco Networking Academy",
+    organization: "Cisco Networking Academy",
+    date: "2026",
+    credentialId: "CSCO-CCNA1-2026",
+    duration: "Introduction to Networking",
+    category: "Networking & Infrastructure",
+    skills: ["Network Fundamentals", "IP Addressing & Subnetting", "OSI & TCP/IP Model", "VLANs & Routing"],
+    pdfFile: "assets/certs/CCNA1.pdf",
+    highlight: true
+  },
+  {
+    id: "ccnp-1",
+    title: "CCNP EN 1 — Enterprise Network Operations",
+    organization: "Cisco Networking Academy",
+    date: "2026",
+    credentialId: "CSCO-CCNP1-2026",
+    duration: "Advanced Routing & Switching",
+    category: "Networking & Infrastructure",
+    skills: ["OSPF & BGP Routing", "VLAN Troubleshooting", "WAN Architecture", "Network Automation"],
+    pdfFile: "assets/certs/CCNP1.pdf",
+    highlight: true
+  },
   {
     id: "openai-api",
     title: "Working with the OpenAI API",
@@ -398,13 +424,16 @@ const certificationsData = [
   }
 ];
 
+// Achievement marks are typographic glyphs, not emoji: emoji render in the
+// colour emoji font (large, flat, and visually detached from the serif UI),
+// whereas these inherit the display font and sit on the text baseline.
 const achievementsData = [
-  { icon: "🏆", title: "Top 10% Cohort Ranking", desc: "Ranked in the top decile of students in the Computer Science & Immersive Systems engineering cycle at ISAMM." },
-  { icon: "🥽", title: "Posidonia VR Lead Developer", desc: "Designed the 3D underwater simulation and interactions for the ATUTAX environmental conservation initiative." },
-  { icon: "🌟", title: "GDG On Campus Organizer", desc: "Organized technical workshops, hackathons, and community tech events as an active leader in GDG On Campus ISAMM." },
-  { icon: "🎮", title: "Global Game Jam Creator", desc: "Engineered and shipped a playable 3D game in 48 intense hackathon hours around the international GGJ theme." },
-  { icon: "🎤", title: "IAMM 2024 Conference Lead", desc: "Managed communication and created all visual identity materials for the International Conference on AI & Multimedia." },
-  { icon: "🌐", title: "Multilingual Fluency", desc: "Fluent in Arabic (native), French (advanced), English (advanced), Korean (advanced), with foundations in Spanish, German, and Chinese." }
+  { icon: "✦", title: "Top 10% Cohort Ranking", desc: "Ranked in the top decile of students in the Computer Science & Immersive Systems engineering cycle at ISAMM." },
+  { icon: "◈", title: "Posidonia VR Lead Developer", desc: "Designed the 3D underwater simulation and interactions for the ATUTAX environmental conservation initiative." },
+  { icon: "❋", title: "GDG On Campus Organizer", desc: "Organized technical workshops, hackathons, and community tech events as an active leader in GDG On Campus ISAMM." },
+  { icon: "✧", title: "Global Game Jam Creator", desc: "Engineered and shipped a playable 3D game in 48 intense hackathon hours around the international GGJ theme." },
+  { icon: "❖", title: "IAMM 2024 Conference Lead", desc: "Managed communication and created all visual identity materials for the International Conference on AI & Multimedia." },
+  { icon: "✺", title: "Multilingual Fluency", desc: "Fluent in Arabic (native), French (advanced), English (advanced), Korean (advanced), with foundations in Spanish, German, and Chinese." }
 ];
 
 const languagesData = [
@@ -429,7 +458,7 @@ const chapters = [
       <p class="tagline">I blend software, 3D and UX/UI to build innovative, user-centred VR/AR experiences.</p>
       <div class="hero-cta-group">
         <button class="btn" id="cta-explore">Explore My World ✦</button>
-        <a class="btn btn-secondary" href="${personalData.cvFile}" target="_blank" rel="noopener">Download CV 📄</a>
+        <a class="btn btn-secondary" href="${personalData.cvFile}" target="_blank" rel="noopener">Download CV ↓</a>
       </div>
       <span class="hint">Scroll or drag to wander ✦</span>
     </div>`
@@ -438,51 +467,73 @@ const chapters = [
     label: "02 WORLD",
     title: "About",
     html: `
-    <div class="card wide">
-      <p class="kicker">01 · A LITTLE ABOUT ME</p>
-      <h2>Where Code Meets Creativity</h2>
-      <p>I am a computer science engineering student at <b>${personalData.institution}</b> in the <b>Department of Immersive Design &amp; Digital Systems (DISN)</b>, ranked among the <b>top 10% of my cohort</b>.</p>
-      <p>I operate at the crossroads of rigorous software engineering and expressive creative technology. I don't just build conventional applications — I craft living interactive systems, cognitive AI pipelines, and spatial 3D environments that connect emotionally with users.</p>
-      
-      <h3>Explore My 5 Creative Pillars</h3>
-      <p class="mut">Click or hover any pillar to inspect my approach and illuminate its 3D landmark:</p>
-      <div class="domain-grid">
-        ${worldDomains.map(d => `
-          <div class="domain-pill" data-domain="${d.id}">
-            <div class="domain-pill-header">
-              <span>${d.icon}</span>
-              <span>${d.title}</span>
-            </div>
-            <div class="domain-pill-desc">${d.tagline}</div>
-          </div>`).join("")}
-      </div>
-      <div id="domain-detail" style="margin-top: 1rem; padding: 16px; border-radius: 18px; background: rgba(255,45,135,0.08); border: 1px solid var(--line);">
-        <b style="color: var(--pink-soft);">✦ Multidisciplinary Perspective:</b>
-        <p style="margin-top: 4px; font-size: 0.92rem; color: var(--text-warm);">Select any pillar above to read more about how I merge software engineering rigor with spatial interaction and AI.</p>
+    <div class="card wide card-about">
+      <header class="card-head">
+        <p class="kicker">01 · A LITTLE ABOUT ME</p>
+        <h2>Where Code Meets Creativity</h2>
+      </header>
+
+      <!-- Two columns on wide screens: the intro copy reads as a proper
+           article instead of one very long line across the card. -->
+      <div class="about-intro">
+        <p>I am a computer science engineering student at <b>${personalData.institution}</b> in the <b>Department of Immersive Design &amp; Digital Systems (DISN)</b>, ranked among the <b>top 10% of my cohort</b>.</p>
+        <p>I operate at the crossroads of rigorous software engineering and expressive creative technology. I don't just build conventional applications — I craft living interactive systems, cognitive AI pipelines, and spatial 3D environments that connect emotionally with users.</p>
       </div>
 
-      <h3>Languages &amp; Global Fluency</h3>
-      <ul class="chips">${languagesData.map(l => `<li>${l}</li>`).join("")}</ul>
+      <section class="about-section">
+        <h3>Explore My 5 Creative Pillars</h3>
+        <p class="mut">Click or hover any pillar to inspect my approach and illuminate its 3D landmark:</p>
+        <div class="domain-grid">
+          ${worldDomains.map(d => `
+            <div class="domain-pill" data-domain="${d.id}" role="button" tabindex="0"
+              aria-label="${d.title} — ${d.tagline}">
+              <div class="domain-pill-header">
+                <span>${d.icon}</span>
+                <span>${d.title}</span>
+              </div>
+              <div class="domain-pill-desc">${d.tagline}</div>
+            </div>`).join("")}
+        </div>
+        <div id="domain-detail" class="domain-detail">
+          <b>✦ Multidisciplinary Perspective:</b>
+          <p>Select any pillar above to read more about how I merge software engineering rigor with spatial interaction and AI.</p>
+        </div>
+      </section>
 
-      <h3>Community Leadership &amp; Fieldwork</h3>
-      <p class="mut">Active organizer at <b>Google Developer Group (GDG On Campus ISAMM)</b> · Marine conservation fieldwork with <b>Association ATUTAX</b> · Project coordination at <b>Orenda Junior Entreprise</b> · Visual communication lead for <b>IAMM 2024 International Conference</b>.</p>
+      <!-- Footer splits in two so the languages list and the leadership
+           note sit side by side rather than stacking in a tall column. -->
+      <div class="about-foot">
+        <section>
+          <h3>Languages &amp; Global Fluency</h3>
+          <ul class="chips">${languagesData.map(l => `<li>${l}</li>`).join("")}</ul>
+        </section>
+        <section>
+          <h3>Community Leadership &amp; Fieldwork</h3>
+          <p class="mut">Active organizer at <b>Google Developer Group (GDG On Campus ISAMM)</b> · Marine conservation fieldwork with <b>Association ATUTAX</b> · Project coordination at <b>Orenda Junior Entreprise</b> · Visual communication lead for <b>IAMM 2024 International Conference</b>.</p>
+        </section>
+      </div>
     </div>`
   },
   {
     label: "03 JOURNEY",
     title: "Journey",
     html: `
-    <div class="card wide">
-      <p class="kicker">02 · ACADEMIC &amp; TECHNICAL PATH</p>
-      <h2>My Journey Through Technology</h2>
-      <p>A continuous progression from scientific inquiry to software engineering, clinical web applications, artificial intelligence, and spatial computing.</p>
+    <div class="card wide card-journey">
+      <header class="card-head">
+        <p class="kicker">02 · ACADEMIC &amp; TECHNICAL PATH</p>
+        <h2>My Journey Through Technology</h2>
+        <p class="mut">A continuous progression from scientific inquiry to software engineering, clinical web applications, artificial intelligence, and spatial computing.</p>
+      </header>
+
+      <!-- Flows down-then-across on wide screens (CSS multi-column), so
+           the timeline still reads top-to-bottom per column. -->
       <div class="timeline-list">
         ${journeyMilestones.map(m => `
           <div class="timeline-item">
             <div class="timeline-date">${m.year}</div>
             <div class="timeline-title">${m.title}</div>
             <div class="timeline-sub">${m.sub}</div>
-            <p style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 0;">${m.desc}</p>
+            <p class="timeline-desc">${m.desc}</p>
           </div>`).join("")}
       </div>
     </div>`
@@ -491,35 +542,48 @@ const chapters = [
     label: "04 SKILLS",
     title: "Skills",
     html: `
-    <div class="card wide">
-      <p class="kicker">03 · TECHNICAL ECOSYSTEM</p>
-      <h2>Interactive Skill Constellation</h2>
-      <p>My technical stack operates as an interconnected ecosystem orbiting software architecture, cognitive AI, spatial computing, and human-centered design.</p>
-      
-      <div class="skill-tabs">
-        <button class="skill-tab-btn active" data-cat="all">All Disciplines</button>
-        ${Object.keys(skillsCatalog).map(cat => `<button class="skill-tab-btn" data-cat="${cat}">${cat}</button>`).join("")}
+    <div class="card wide card-skills">
+      <header class="card-head">
+        <p class="kicker">03 · TECHNICAL ECOSYSTEM</p>
+        <h2>Interactive Skill Constellation</h2>
+        <p class="mut">My technical stack operates as an interconnected ecosystem orbiting software architecture, cognitive AI, spatial computing, and human-centered design.</p>
+      </header>
+
+      <div class="skill-tabs" role="group" aria-label="Filter skills by discipline">
+        <button class="skill-tab-btn active" data-cat="all" aria-pressed="true">All Disciplines</button>
+        ${Object.keys(skillsCatalog).map(cat => `<button class="skill-tab-btn" data-cat="${cat}" aria-pressed="false">${cat}</button>`).join("")}
       </div>
 
-      <div id="skills-display">
+      <!-- 1. The skill catalogue. Filtered in place by the tabs above. -->
+      <div id="skills-display" class="skills-display">
         ${Object.entries(skillsCatalog).map(([category, skills]) => `
-          <div class="skill-category-block" data-cat="${category}" style="margin-bottom: 1.2rem;">
-            <h3 style="font-size: 1.05rem; color: var(--pink-soft);">${category}</h3>
+          <section class="skill-category-block" data-cat="${category}">
+            <header class="skill-cat-head">
+              <h3>${category}</h3>
+              <span class="skill-count">${skills.length}</span>
+            </header>
             <ul class="chips">${skills.map(s => `<li>${s}</li>`).join("")}</ul>
-          </div>`).join("")}
+          </section>`).join("")}
       </div>
 
-      <h3>Notable Achievements &amp; Recognition</h3>
-      <div class="achievements-grid">
-        ${achievementsData.map(a => `
-          <div class="achievement-card">
-            <div class="achievement-icon">${a.icon}</div>
-            <div class="achievement-text">
-              <b>${a.title}</b>
-              <span>${a.desc}</span>
-            </div>
-          </div>`).join("")}
-      </div>
+      <!-- 2. Recognition sits below the catalogue, so the visitor scrolls
+           down to reach it rather than splitting their attention. -->
+      <section class="skills-recognition">
+        <header class="recognition-head">
+          <p class="kicker">RECOGNITION</p>
+          <h3>Notable Achievements</h3>
+        </header>
+        <div class="achievements-grid">
+          ${achievementsData.map(a => `
+            <div class="achievement-card">
+              <div class="achievement-icon" aria-hidden="true">${a.icon}</div>
+              <div class="achievement-text">
+                <b>${a.title}</b>
+                <span>${a.desc}</span>
+              </div>
+            </div>`).join("")}
+        </div>
+      </section>
     </div>`
   },
   {
@@ -547,7 +611,7 @@ const chapters = [
           <p class="kicker" style="margin-bottom: 0.1rem;">05 · CREDENTIALS &amp; MASTERY</p>
           <h2>Certifications</h2>
         </div>
-        <p class="mut">Verified credentials across AI, LLMOps, Version Control &amp; Leadership.</p>
+        <p class="mut">Verified credentials across Networking, AI, LLMOps, Version Control &amp; Leadership.</p>
       </div>
 
       <div class="learning-path">
@@ -560,6 +624,8 @@ const chapters = [
         <div class="path-node"><div class="year">2026</div><div class="label">OpenAI &amp; LLMOps</div></div>
         <div class="path-arrow">→</div>
         <div class="path-node"><div class="year">2026</div><div class="label">VR &amp; Spatial</div></div>
+        <div class="path-arrow">→</div>
+        <div class="path-node"><div class="year">2026</div><div class="label">CCNA &amp; CCNP</div></div>
       </div>
 
       <div id="certs-root"></div>
@@ -575,10 +641,10 @@ const chapters = [
       <p>Whether you're looking to develop an immersive VR experience, an AI pipeline, an interactive 3D web platform, or discuss engineering opportunities — I'd love to connect.</p>
       
       <div class="hero-cta-group" style="margin: 1.2rem 0;">
-        <a class="btn" href="mailto:${personalData.email}">Email Me Directly ✉</a>
+        <a class="btn" href="mailto:${personalData.email}">Email Me Directly →</a>
         <a class="btn btn-secondary" href="${personalData.links[0].href}" target="_blank" rel="noopener">LinkedIn Profile ↗</a>
         <a class="btn btn-secondary" href="${personalData.links[1].href}" target="_blank" rel="noopener">GitHub Repositories ↗</a>
-        <a class="btn btn-secondary" href="${personalData.cvFile}" target="_blank" rel="noopener">Download CV (PDF) 📄</a>
+        <a class="btn btn-secondary" href="${personalData.cvFile}" target="_blank" rel="noopener">Download CV (PDF) ↓</a>
       </div>
 
       <form class="contact-form" id="contact-form" novalidate>

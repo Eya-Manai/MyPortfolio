@@ -88,7 +88,7 @@ function boot() {
     
     // Domain Pill Interactions
     document.querySelectorAll(".domain-pill").forEach(pill => {
-      pill.addEventListener("click", () => {
+      const activate = () => {
         const id = pill.dataset.domain;
         const dom = worldDomains.find(d => d.id === id);
         const detailEl = selectEl("#domain-detail");
@@ -100,21 +100,31 @@ function boot() {
         }
         document.querySelectorAll(".domain-pill").forEach(p => p.classList.toggle("active", p === pill));
         soundEngine.clickChime();
+      };
+      pill.addEventListener("click", activate);
+      // The pills are divs, so Enter/Space have to be wired up by hand.
+      pill.addEventListener("keydown", e => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          activate();
+        }
       });
     });
     
     // Skill Filter Tabs
     document.querySelectorAll(".skill-tab-btn").forEach(btn => {
       btn.addEventListener("click", () => {
-        document.querySelectorAll(".skill-tab-btn").forEach(b => b.classList.remove("active"));
+        document.querySelectorAll(".skill-tab-btn").forEach(b => {
+          b.classList.remove("active");
+          b.setAttribute("aria-pressed", "false");
+        });
         btn.classList.add("active");
+        btn.setAttribute("aria-pressed", "true");
         const cat = btn.dataset.cat;
+        // Toggle a class rather than an inline style: the category blocks
+        // are grid items, and the class survives responsive re-layout.
         document.querySelectorAll(".skill-category-block").forEach(block => {
-          if (cat === "all" || block.dataset.cat === cat) {
-            block.style.display = "block";
-          } else {
-            block.style.display = "none";
-          }
+          block.classList.toggle("is-hidden", !(cat === "all" || block.dataset.cat === cat));
         });
         soundEngine.clickChime();
       });

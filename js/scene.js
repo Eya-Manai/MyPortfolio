@@ -118,14 +118,21 @@ class My {
     addEventListener("pointercancel", () => { startY = null; });
     
     addEventListener("keydown", e => {
-      if (isInside(e, "dialog, input, textarea")) return;
+      // Never hijack keys aimed at a form field or an open dialog.
+      if (isInside(e, "dialog, input, textarea, select")) return;
+      // Space and Enter belong to whatever is focused. Swallowing them here
+      // would stop Tab-to-button activation, so hand those back first.
+      const onControl = e.target.closest("button, a, [role='button']");
+      if (onControl && (e.key === " " || e.key === "Enter")) return;
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+
       if (["ArrowDown", "ArrowRight", "PageDown", " "].includes(e.key)) {
         e.preventDefault();
         this.goTo(this.nearest + 1);
       } else if (["ArrowUp", "ArrowLeft", "PageUp"].includes(e.key)) {
         e.preventDefault();
         this.goTo(this.nearest - 1);
-      } else if (e.key >= "1" && e.key <= "7") {
+      } else if (/^[1-7]$/.test(e.key)) {
         this.goTo(parseInt(e.key, 10) - 1);
       }
     });
@@ -647,20 +654,33 @@ function Ly({ scene, camera, bloomPass }, stationController) {
       ambient.intensity = 0.9 - toneP * 0.3;
       dirLight.color.setHSL(0.11 - toneP * 0.05, 0.4 + toneP * 0.35, 0.72 - toneP * 0.28);
       
-      // Sakura blossoms: gentle bob, sway and slow tumble
-      blossoms.forEach((s, i) => {
+      // Sakura blossoms: gentle bob, sway and slow tumble.
+      // On station 0 the petal drift is switched off (below), so the
+      // blossoms hold the whole composition alone: they are pushed a little
+      // further toward the frame edges to keep the name card clear, and
+      // slowed right down so the hero reads as calm rather than busy.
+      const helloCalm = 1 - Qc.clamp(stationController.progress / 0.05, 0, 1);
+      blossoms.forEach(s => {
         const u = s.userData;
-        s.position.x = u.baseX + Math.sin(time * u.speed * 0.7 + u.phase) * 0.9;
-        s.position.y = u.baseY + Math.sin(time * u.speed + u.phase) * 1.1;
-        s.material.rotation += u.spin * delta;
+        s.position.x = u.baseX * (1 + helloCalm * 0.35)
+          + Math.sin(time * u.speed * 0.7 + u.phase) * 0.9 * (1 - helloCalm * 0.7);
+        s.position.y = u.baseY + Math.sin(time * u.speed + u.phase) * 1.1 * (1 - helloCalm * 0.7);
+        s.material.rotation += u.spin * delta * (1 - helloCalm * 0.7);
       });
       farBlossoms.forEach(s => {
         const u = s.userData;
-        s.position.y = u.baseY + Math.sin(time * u.speed + u.phase) * 1.6;
-        s.material.rotation += u.spin * delta;
+        s.position.y = u.baseY + Math.sin(time * u.speed + u.phase) * 1.6 * (1 - helloCalm * 0.7);
+        s.material.rotation += u.spin * delta * (1 - helloCalm * 0.7);
       });
+
       // Petals brighten slightly as the sky darkens so they read against dusk
-      petalMat.opacity = 0.85 + toneP * 0.15;
+      // — but they fade out entirely over the opening chapter, where the
+      // brief is an uncluttered hero. The drifting specks sat on top of the
+      // name card and read as dust. `petalFade` ramps back in as soon as the
+      // camera leaves station 0, so the rest of the corridor keeps its drift.
+      const petalFade = Qc.clamp((stationController.progress - 0.015) / 0.06, 0, 1);
+      petalMat.opacity = (0.85 + toneP * 0.15) * petalFade;
+      petalPoints.visible = petalFade > 0.01;
 
       // Petals fall with lateral sway, wrapping around the camera's
       // altitude so the drift follows the whole corridor.

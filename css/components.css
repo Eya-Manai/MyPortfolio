@@ -4,11 +4,61 @@
    matters: later files intentionally override earlier ones.
    ============================================================ */
 
+/* ── About card: wide layout ──
+   The intro copy becomes two columns and the footer splits, so the extra
+   card width buys shorter measures instead of 150-character lines. */
+.about-intro {
+  display: grid;
+  gap: 0 clamp(20px, 2.4vw, 44px);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 1000px) {
+  .about-intro { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.about-section {
+  margin-top: clamp(1.2rem, 2.4vw, 2rem);
+  padding-top: clamp(1.2rem, 2.4vw, 1.8rem);
+  border-top: 1px solid var(--line);
+}
+.about-foot {
+  display: grid;
+  gap: clamp(1.2rem, 2.4vw, 2.4rem);
+  grid-template-columns: 1fr;
+  margin-top: clamp(1.2rem, 2.4vw, 1.8rem);
+  padding-top: clamp(1.2rem, 2.4vw, 1.8rem);
+  border-top: 1px solid var(--line);
+}
+@media (min-width: 1000px) {
+  /* Languages get the narrower track: chips are short, the prose is long. */
+  .about-foot { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); }
+}
+.about-foot h3 { margin-bottom: 0.5em; }
+
+/* Selected-pillar readout, promoted from an inline style to real CSS so it
+   can be re-flowed and themed with the rest of the card. */
+.domain-detail {
+  margin-top: 1rem;
+  padding: 16px 18px;
+  border-radius: 18px;
+  background: rgba(255, 45, 135, 0.08);
+  border: 1px solid var(--line);
+}
+.domain-detail b {
+  color: var(--pink-soft);
+}
+.domain-detail p {
+  margin-top: 4px;
+  font-size: 0.92rem;
+  color: var(--text-warm);
+}
+
 /* Interactive World Domains */
 .domain-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 12px;
+  /* min() keeps the five pillars on one row on wide screens without
+     forcing five narrow columns on a phone, where it falls back to two. */
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+  gap: clamp(10px, 1.2vw, 14px);
   margin: 1.2rem 0;
 }
 .domain-pill {
@@ -19,6 +69,10 @@
   cursor: pointer;
   transition: all 0.25s cubic-bezier(0.2, 1, 0.3, 1);
   text-align: left;
+}
+.domain-pill:focus-visible {
+  outline: 2px solid var(--pink-primary);
+  outline-offset: 2px;
 }
 .domain-pill:hover, .domain-pill.active {
   background: linear-gradient(135deg, rgba(255, 45, 135, 0.2), rgba(139, 61, 255, 0.2));
@@ -35,6 +89,29 @@
   color: var(--text-pure);
   margin-bottom: 4px;
 }
+/* Pillar mark: a typographic glyph in a tinted disc, matching the
+   achievement badges so the two read as one family. */
+.domain-pill-header > span:first-child {
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: rgba(255, 45, 135, 0.1);
+  color: var(--pink-primary);
+  font-family: var(--display);
+  font-size: 0.95rem;
+  line-height: 1;
+  transition: background 0.25s, color 0.25s, border-color 0.25s;
+}
+.domain-pill:hover .domain-pill-header > span:first-child,
+.domain-pill.active .domain-pill-header > span:first-child {
+  background: var(--pink-primary);
+  color: #fff;
+  border-color: var(--pink-primary);
+}
 .domain-pill-desc {
   font-size: 0.8rem;
   color: var(--text-muted);
@@ -42,11 +119,29 @@
 }
 
 /* Journey Timeline */
+.card-journey .card-head { margin-bottom: 0.6rem; }
 .timeline-list {
   display: flex;
   flex-direction: column;
   gap: 16px;
   margin-top: 1rem;
+}
+@media (min-width: 900px) {
+  /* Multi-column (not grid) so the milestones still read top-to-bottom
+     within each column, and a single tall item never splits across two. */
+  .timeline-list {
+    display: block;
+    columns: 2;
+    column-gap: clamp(24px, 3vw, 56px);
+  }
+  .timeline-item {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    margin-bottom: 22px;
+  }
+}
+@media (min-width: 1500px) {
+  .timeline-list { columns: 3; }
 }
 .timeline-item {
   position: relative;
@@ -89,6 +184,11 @@
   font-size: 0.85rem;
   margin-bottom: 6px;
 }
+.timeline-desc {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  margin-bottom: 0;
+}
 
 /* Chips / Tags */
 .chips {
@@ -115,6 +215,92 @@
 }
 
 /* Skills Filter Ecosystem */
+/* The tabs span the full card width and stick while it scrolls, so a
+   discipline is always one click away no matter how far down you are. */
+.card-skills .skill-tabs {
+  position: sticky;
+  top: -1px;
+  z-index: 2;
+  padding: 10px 12px;
+  margin: 1.2rem 0;
+  border-radius: 22px;
+  border: 1px solid var(--line);
+  background: var(--hud-bg);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+/* One bordered panel per discipline. The grid makes every panel in a row
+   the same height, which is what makes the row read as a tidy set. */
+.skills-display {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(10px, 1.1vw, 14px);
+}
+@media (min-width: 760px) {
+  .skills-display { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1500px) {
+  /* Four disciplines exactly: a single even row, no orphan. */
+  .skills-display { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+.skill-category-block {
+  display: flex;
+  flex-direction: column;
+  padding: clamp(14px, 1.5vw, 20px);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--glass-fill);
+  transition: border-color 0.3s, transform 0.3s, background-color 0.5s ease, color 0.5s ease;
+}
+.skill-category-block:hover {
+  border-color: var(--line-strong);
+  transform: translateY(-2px);
+}
+/* Heading row: the category name plus a right-aligned skill count, so
+   the eye can compare the four panels without reading every chip. */
+.skill-cat-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+}
+.skill-cat-head h3 {
+  font-size: 1rem;
+  color: var(--pink-soft);
+  line-height: 1.3;
+}
+.skill-count {
+  flex: 0 0 auto;
+  font: 700 0.68rem var(--kicker-font);
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  padding: 2px 9px;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+}
+.skill-category-block .chips {
+  margin: 0;
+}
+/* Filtered out by the skill tabs. `display: none` must beat the grid
+   item's implicit display, so it is declared explicitly. */
+.skill-category-block.is-hidden {
+  display: none;
+}
+
+/* Recognition block, reached by scrolling past the catalogue. */
+.skills-recognition {
+  margin-top: clamp(1.6rem, 3vw, 2.8rem);
+  padding-top: clamp(1.4rem, 2.6vw, 2.2rem);
+  border-top: 1px solid var(--line);
+}
+.recognition-head {
+  margin-bottom: 1rem;
+}
+.recognition-head .kicker { margin-bottom: 0.25rem; }
+
 .skill-tabs {
   display: flex;
   flex-wrap: wrap;
@@ -141,8 +327,8 @@
 /* Projects Showcase */
 .projects-container {
   width: 100%;
-  max-width: 1100px;
-  max-height: 84vh;
+  max-width: 1320px;
+  max-height: min(84vh, 900px);
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
@@ -162,13 +348,16 @@
 #gallery-root {
   width: 100%;
   overflow-y: auto;
+  min-height: 0;
   max-height: 72vh;
   padding: 10px 8px 24px;
 }
 .gallery-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 20px;
+  /* min() stops the track from exceeding the column on narrow phones,
+     which would otherwise force a horizontal scrollbar. */
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+  gap: clamp(14px, 1.6vw, 22px);
 }
 .gallery-card {
   aspect-ratio: 1 / 1.15;
@@ -308,7 +497,7 @@
 /* Certifications 3D Credential Vault */
 .certs-container {
   width: 100%;
-  max-width: 1180px;
+  max-width: 1400px;
   max-height: 92vh;
   display: flex;
   flex-direction: column;
@@ -340,7 +529,7 @@
 /* Every credential is laid out at once — no carousel, no scrollbar. */
 .certs-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(196px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(196px, 100%), 1fr));
   gap: 12px;
   padding: 4px;
 }
@@ -408,6 +597,22 @@
   gap: 2px;
   font-size: 0.75rem;
   color: var(--text-muted);
+}
+/* Meta rows read as "label value" without an icon. The label is fixed-width
+   so the values below it line up into a clean column. */
+.cert-meta span {
+  display: flex;
+  gap: 8px;
+}
+.cert-meta b {
+  flex: 0 0 44px;
+  font-family: var(--kicker-font);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--pink-soft);
+  line-height: 1.75;
 }
 .cert-card .chips {
   margin: 0;
@@ -480,9 +685,16 @@
 /* Achievements Badges */
 .achievements-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: 1fr;
   gap: 12px;
-  margin-top: 1.2rem;
+}
+/* Explicit steps rather than auto-fit: six badges wrap 3+3 on a desktop and
+   2+2+2 on a tablet, so there is never a lone orphan on the last row. */
+@media (min-width: 560px) {
+  .achievements-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1000px) {
+  .achievements-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 .achievement-card {
   padding: 14px 16px;
@@ -499,8 +711,27 @@
   border-color: var(--pink-primary);
   transform: translateY(-2px);
 }
+/* The mark is a typographic glyph in the display font, not an emoji, so it
+   is sized and coloured like the rest of the type instead of sitting on a
+   baseline like a pasted sticker. */
 .achievement-icon {
-  font-size: 1.6rem;
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: rgba(255, 45, 135, 0.1);
+  color: var(--pink-primary);
+  font-family: var(--display);
+  font-size: 1.05rem;
+  line-height: 1;
+}
+.achievement-card:hover .achievement-icon {
+  background: var(--pink-primary);
+  color: #fff;
+  border-color: var(--pink-primary);
 }
 .achievement-text b {
   display: block;

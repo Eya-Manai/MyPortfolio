@@ -214,9 +214,11 @@ dialog#modal .modal-content {
    Same frame language as .case-gallery but 9/19.5 so handset
    captures keep their real aspect instead of being cropped. */
 .case-gallery--phone {
-  grid-template-columns: repeat(auto-fit, minmax(148px, 1fr));
-  gap: 18px;
-  max-width: 640px;
+  /* Exactly four per row. Four narrow 9:19.5 frames read better than a
+     ragged auto-fit that lands on three at some widths. */
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  max-width: 100%;
 }
 .case-gallery--phone figure {
   border-radius: 26px;
@@ -236,6 +238,17 @@ dialog#modal .modal-content {
   color: var(--text-muted);
   text-align: center;
 }
+/* The `hidden` attribute is how these placeholders stay collapsed until a
+   real load failure is detected. Without this rule the class below sets
+   `display: grid`, which beats the user-agent's [hidden] { display: none }
+   and leaves an empty "Screen pending" frame under every working image. */
+.case-shot-empty[hidden],
+.case-video-empty[hidden],
+.case-gallery--phone img[hidden],
+.case-video-frame video[hidden] {
+  display: none;
+}
+
 /* Stands in for a handset shot that has not been added yet. */
 .case-shot-empty {
   display: grid;
@@ -330,6 +343,15 @@ dialog#modal .modal-content {
   padding-top: clamp(16px, 2vw, 24px);
   border-top: 1px solid rgba(255, 95, 162, 0.25);
 }
+/* External project links (Colab notebook, live demo, repo). Sits above the
+   mail CTA in the wrapping row and matches the secondary button styling. */
+.case-link-btn {
+  text-decoration: none;
+  white-space: nowrap;
+}
+.case-link-btn:hover {
+  transform: translateY(-3px) scale(1.02);
+}
 .case-hint {
   font-size: 0.8rem;
   color: var(--text-dim);
@@ -385,6 +407,38 @@ dialog#modal .modal-content {
 }
 .modal-shots-grid img:hover {
   transform: scale(1.02);
+}
+
+/* Notice shown in place of the PDF button when the scan is missing.
+   Both the note and the link need explicit [hidden] rules: .btn sets
+   `display: inline-flex`, which beats the user-agent [hidden] rule and
+   would leave a dead button on screen. */
+.cert-pdf-missing {
+  margin-top: 1.2rem;
+  padding: 16px 18px;
+  border: 1px dashed var(--line-strong);
+  border-radius: 18px;
+  background: var(--glass-fill);
+  font-size: 0.85rem;
+}
+.cert-pdf-missing b {
+  display: block;
+  color: var(--pink-soft);
+  font-family: var(--kicker-font);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.cert-pdf-missing span { color: var(--text-muted); }
+.cert-pdf-missing code {
+  font: 700 0.75rem var(--kicker-font);
+  color: var(--pink-soft);
+  word-break: break-all;
+}
+.cert-pdf-missing[hidden],
+.modal-content a.btn[hidden] {
+  display: none;
 }
 
 /* Contact Section Form */

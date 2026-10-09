@@ -64,7 +64,9 @@
   display: flex;
   align-items: center;
   gap: 2px;
-  max-width: min(58vw, 720px);
+  /* The bar sits between the brand and sound pills, so its width is
+     budgeted from the middle out rather than by the viewport alone. */
+  max-width: min(58vw, 760px);
   padding: 6px;
   border-radius: 99px;
   background: var(--hud-bg);
@@ -74,6 +76,7 @@
   box-shadow: 0 8px 24px rgba(10, 2, 18, 0.35);
   pointer-events: auto;
   overflow-x: auto;
+  overscroll-behavior-x: contain;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
