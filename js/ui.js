@@ -54,10 +54,18 @@ function renderProjectsGrid(container, onSelect) {
   const grid = document.createElement("div");
   grid.className = "gallery-grid";
   // Compact cards: cover, year, role and exactly 3 tech chips.
+  // Projects with a demo get a muted looping <video> sitting on top of the
+  // cover image; the image itself stays as the poster and as the fallback
+  // whenever the clip is missing or the visitor prefers reduced motion.
   grid.innerHTML = projectsData.map((p, idx) => `
     <button class="gallery-card ${p.featured ? 'featured' : ''}" data-idx="${idx}"
       aria-label="Open case study: ${p.title}">
       <div class="card-cover" style="background-image: url('${p.image}')">
+        ${p.video && p.video.preview ? `
+        <video class="cover-preview" muted loop playsinline preload="none" tabindex="-1"
+          poster="${p.video.poster || p.image}" aria-hidden="true">
+          <source src="${p.video.previewSrc || p.video.src}" type="video/mp4">
+        </video>` : ""}
         <span class="cover-year">${p.year}</span>
         ${p.video ? '<span class="cover-video-tag" aria-hidden="true">▶ Demo</span>' : ""}
         <span class="cover-arrow" aria-hidden="true">↗</span>
@@ -75,6 +83,59 @@ function renderProjectsGrid(container, onSelect) {
   [...grid.children].forEach((card, idx) => {
     card.addEventListener("click", () => onSelect(idx));
   });
+
+  setupCoverPreviews(grid);
+}
+
+// Autoplaying card previews. Kept in its own function because it owns a
+// small piece of lifecycle logic (visibility + reduced motion + failure
+// handling) that would otherwise bury the markup above.
+function setupCoverPreviews(grid) {
+  const previews = [...grid.querySelectorAll(".cover-preview")];
+  if (!previews.length) return;
+
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Hide the <video> and let the CSS background image show through instead.
+  const drop = v => {
+    v.pause();
+    v.hidden = true;
+  };
+
+  previews.forEach(v => {
+    // A failing <source> reports the error on itself, and the <video> only
+    // fires its own error once every source is exhausted — listen to both.
+    v.addEventListener("error", () => drop(v));
+    const source = v.querySelector("source");
+    if (source) source.addEventListener("error", () => drop(v));
+
+    // preload="none" means nothing is fetched until play, so the source is
+    // probed explicitly. Skipped on file:// because fetch() cannot read local
+    // files there and would hide a perfectly valid clip.
+    if (location.protocol === "http:" || location.protocol === "https:") {
+      const src = source.getAttribute("src");
+      fetch(src, { method: "HEAD" })
+        .then(r => { if (!r.ok) drop(v); })
+        .catch(drop);
+    }
+
+    if (reduced) { drop(v); return; }
+    v.play().catch(() => { /* autoplay blocked: the poster image remains */ });
+  });
+
+  // Only decode video while the card is actually on screen. Chapters fade
+  // panels in and out, so several cards can be "rendered" but invisible.
+  if ("IntersectionObserver" in window && !reduced) {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        const v = en.target;
+        if (v.hidden) return;
+        if (en.isIntersecting) v.play().catch(() => {});
+        else v.pause();
+      });
+    }, { threshold: 0.3 });
+    previews.forEach(v => io.observe(v));
+  }
 }
 
 // Build Certifications Grid
@@ -149,7 +210,11 @@ function setupModal(dialog, soundEngine, env) {
               poster="${p.video.poster || p.image}"
               src="${p.video.src}"
               aria-label="${p.video.label || p.title + ' video demo'}"></video>
-           
+            <div class="case-video-empty" hidden>
+              <span aria-hidden="true">▶</span>
+              <span>Demo clip not added yet</span>
+              <code>${p.video.src}</code>
+            </div>
           </div>
           <div class="case-video-note">
             <b>${p.video.label || "Demo"}</b>

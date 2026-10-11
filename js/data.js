@@ -18,7 +18,7 @@ const personalData = {
   ranking: "Top 10% of Cohort · Immersive Design & Digital Systems (DISN)",
   email: "eyamanai35@gmail.com",
   phone: "+216 50 183 695",
-  cvFile: "assets/Mon_CV_Eya_Manai.pdf",
+  cvFile: "assets/mineCV.pdf",
   links: [
     { label: "LinkedIn", href: "https://linkedin.com/in/Eya-Manai" },
     { label: "GitHub", href: "https://github.com/Eya-Manai" }
@@ -105,14 +105,14 @@ const journeyMilestones = [
   },
   {
     year: "Sep 2021 – Jul 2024",
-    title: "Licence en Informatique",
+    title: "Bachelor's Degree in Computer Science",
     sub: "ISAMM (Institute of Arts & Multimedia of Manouba)",
     desc: "Three-year undergraduate degree establishing core mastery in data structures, algorithms, web development, multimedia computing, and UX design."
   },
   {
     year: "Jun 2021",
-    title: "Baccalauréat en Sciences Expérimentales",
-    sub: "Lycée Hannibal Ariana",
+    title: "Bachelor of Science in Experimental Sciences",
+    sub: "Hannibal High School Ariana",
     desc: "Scientific diploma with rigorous training in mathematics and life sciences, sparking my curiosity for algorithmic systems."
   }
 ];
@@ -154,6 +154,8 @@ const projectsData = [
     solution: "A gamified VR exploration where players virtually dive into threatened marine reserves, conduct biodiversity surveys, free entangled marine wildlife, and witness the tangible ecological benefits of conservation first-hand.",
     // Headset capture. Drop the file at this path (MP4/H.264 recommended);
     // until then the block shows a labelled placeholder instead of a dead frame.
+    // No `preview: true` here on purpose: this clip is large, so the card
+    // keeps its still cover and only the case study streams the video.
     video: {
       src: "assets/projects/tutoFinalAtutax.mp4",
       poster: "assets/projects/posidonia.png",
@@ -249,9 +251,16 @@ const projectsData = [
     story: "A creative digital landing page combining interactive 3D assets, procedural geometry, lighting choreographies, and reactive mouse camera interpolation. Demonstrates how immersive 3D technology can transform digital storytelling into an engaging, memorable branded experience.",
     problem: "Standard educational landing pages are often flat, predictable, and fail to evoke genuine curiosity or demonstrate modern creative tech capabilities.",
     solution: "A dynamic WebGL scene with procedural animations, glassmorphic typography, smooth camera easing, and performant asset streaming.",
-    screenshots: [
-      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=85"
-    ]
+    // Browser capture of the live WebGL scene. The same file doubles as the
+    // muted looping preview on the project card.
+    video: {
+      src: "assets/projects/threejsDemo.mp4",
+      preview: true,
+      poster: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=85",
+      label: "Live WebGL Demo",
+      note: "Real-time Three.js scene — procedural geometry, shader lighting and mouse-reactive camera, captured in the browser."
+    },
+   
   },
   {
     id: "heart-attack-detection",
@@ -267,51 +276,47 @@ const projectsData = [
     problem: "Cardiovascular diseases are the leading global cause of mortality; early, reliable risk detection through routine non-invasive screening metrics can save lives.",
     solution: "A high-recall machine learning pipeline implementing exploratory data analysis, outlier mitigation, and ensemble classifiers providing explainable risk probabilities.",
     screenshots: [
-      "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=1200&q=85"
+      "assets/projects/machineLearning.png"
     ]
   },
   {
     id: "warrior-of-wealth",
     title: "Warrior of Wealth",
     subtitle: "2D Promotional Game for a Local Shop",
-    year: "2026",
+    year: "2025",
     at: "Personal Project (Self-Initiated)",
     role: "2D Game Developer & Designer",
-    image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1200&q=85",
+    image: "assets/projects/warriorofWealth.png",
     tint: ["#d946ef", "#8b5cf6"],
     stack: ["Unity", "C#", "2D Game Development", "Game Design", "Pixel Art"],
     story: "A small 2D game developed as a creative promotional experience for my shop. The game combines simple gameplay mechanics with the shop's visual identity, allowing players to interact with the brand through a short and entertaining gaming experience. The player takes on the role of a warrior who navigates the game environment, collects items, and overcomes simple challenges while discovering elements inspired by the shop. The project focuses on creating an engaging and accessible experience while using game design as a creative way to promote a business.",
     problem: "Small local shops rarely have the budget or reach for conventional advertising, so standing out against larger competitors while staying friendly to a walk-in audience is difficult.",
     solution: "Game design used as a promotional medium: an approachable 2D adventure where the brand's identity is woven into the world, characters and items the player interacts with.",
-    screenshots: [
-      "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1200&q=85"
-    ]
+    // In-engine gameplay capture. Doubles as the muted looping preview on
+    // the project card.
+    video: {
+      src: "assets/projects/gameTrial.mp4",
+      preview: true,
+      poster: "assets/projects/warriorofWealth.png",
+      label: "Gameplay Demo",
+      note: "Actual play session — movement, item collection and the shop-themed world in motion."
+    },
+    
   }
 ];
 
 const certificationsData = [
-  {
-    id: "ccna-1",
-    title: "CCNA 1 — Cisco Networking Academy",
-    organization: "Cisco Networking Academy",
-    date: "2026",
-    credentialId: "CSCO-CCNA1-2026",
-    duration: "Introduction to Networking",
-    category: "Networking & Infrastructure",
-    skills: ["Network Fundamentals", "IP Addressing & Subnetting", "OSI & TCP/IP Model", "VLANs & Routing"],
-    pdfFile: "assets/certs/CCNA1.pdf",
-    highlight: true
-  },
+
   {
     id: "ccnp-1",
-    title: "CCNP EN 1 — Enterprise Network Operations",
+    title: "CCNA: Switching, Routing, and Wireless Essentials",
     organization: "Cisco Networking Academy",
-    date: "2026",
-    credentialId: "CSCO-CCNP1-2026",
+    date: "2025",
+    credentialId: "CCNA: Switching, Routing, and Wireless Essentials 2025",
     duration: "Advanced Routing & Switching",
     category: "Networking & Infrastructure",
     skills: ["OSPF & BGP Routing", "VLAN Troubleshooting", "WAN Architecture", "Network Automation"],
-    pdfFile: "assets/certs/CCNP1.pdf",
+    pdfFile: "assets/certs/ccna2.pdf",
     highlight: true
   },
   {
