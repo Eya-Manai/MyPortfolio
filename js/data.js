@@ -18,9 +18,9 @@ const personalData = {
   ranking: "Top 10% of Cohort · Immersive Design & Digital Systems (DISN)",
   email: "eyamanai35@gmail.com",
   phone: "+216 50 183 695",
-  cvFile: "assets/mineCV.pdf",
+  cvFile: "assets/cvEyaManai.pdf",
   links: [
-    { label: "LinkedIn", href: "https://linkedin.com/in/Eya-Manai" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/eyamanai" },
     { label: "GitHub", href: "https://github.com/Eya-Manai" }
   ]
 };
